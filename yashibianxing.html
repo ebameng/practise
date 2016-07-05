@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>鸭式辩型</title>
+</head>
+<body>
+	<p>鸭式辩型的意思是如果一个对象可以像鸭子一样走路，游泳并且嘎嘎叫，就认为这个对象是鸭子，哪怕它并不是从鸭子类的原型对象继承而来的</p>
+	<script>
+	function quacks(o, arguments) {
+		for (var i = 0; i < arguments.length; i++) { //遍历o之后的所有参数
+			var arg = arguments[i];
+			switch (typeof arg) {
+				case 'string':
+					if (typeof o[arg] !== "function") return false;
+					continue;
+				case 'function': 
+					arg = arg.prototype;
+				case 'object': 
+					for (var m in arg) {
+						if (typeof arg[m] !== 'function') continue;
+						if (typeof o[m] !== 'function') return false;
+					}
+			}
+		};
+		return true;
+	}
+	</script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>js中的面向对象技术</title>
+</head>
+<body>
+	<p>一个例子，集合类</p>
+	<script>
+	//Set.js 值的任意集合
+	function Set() {			//一个构造函数
+		this.values = {};		//集合的数据都保存在构造函数的对象中
+		this.n = 0;				//集合的个数
+		this.add.apply(this, arguments);	//把所有参数都添加进这个集合
+	}
+
+	//将每个参数都添加到集合中
+	Set.prototype.add = function () {
+		for (var i = 0; i < arguments.length; i++) {	//遍历每个参数
+			var val = arguments[i];		//待添加到集合中的值
+			var str = Set._v2s(val);
+			if (!this.values.hasOwnProperty(str)) {
+				this.values[str] = val;
+				this.n++;
+			}
+		};
+	}
+	</script>
+</body>
+</html>

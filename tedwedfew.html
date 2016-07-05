@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+<button class="append">append</button>
+<button class="html">html</button>
+<div>
+	<p>131</p>
+	<p>ee2</p>
+</div>
+</body>
+<script src="testDraggable/jquery.js"></script>
+<script>
+	$(document).ready(function() {
+		$('.append').click(function() {
+			$('div').append('<p>fwfhwefhwefie</p>')
+		});
+
+		$('.html').click(function() {
+			$('div').html('<p>fwfhwefhwefie</p>')
+		});
+	})
+</script>
+</html>

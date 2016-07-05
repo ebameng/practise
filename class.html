@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>类</title>
+</head>
+<body>
+	<script>
+	function inherit() {
+
+	}
+
+	//继承的第一种方式： 对象冒充
+	function Parent(username) {
+		this.username = username;
+		this.hello = function() {
+			alert(this.username);
+		}
+	}
+	function Child(username, password) {
+		this.method = Parent;
+		this.method(username);
+		delete this.method;
+
+		this.password = password;
+		this.world = function() {
+			alert(this.password);
+		}
+	}
+
+	var parent = new Parent('zhangsan');
+	var child = new Child('LISI', '123456');
+	parent.hello();
+	child.hello();
+	child.world();
+
+	//继承的第二种方式：call()方法方式
+	function test(str) {
+		alert(this.name + "" + str);
+	}
+	var object = new object();
+	object.name = "zhangsan";
+	test.call(object, "langsin");
+
+	function Parent(username) {
+		this.username = username;
+		this.hello = function() {
+			alert(this.username);
+		}
+	}
+
+	function Child(username. password) {
+		Parent.call(this, username);
+		this.password = password;
+		this.world = function() {
+			alert(this.password);
+		}
+	}
+
+	var parent = new Parent('zhangsan');
+	var child = new Child('lisi', '12345677');
+	parent.hello();
+	child.hello();
+	child.world();
+
+	//继承的第三种方式：apply() 方法方式
+	function Parent(username){ 
+	    this.username = username; 
+	    this.hello = function(){ 
+	      	alert(this.username); 
+	    } 
+	  } 
+	function Child(username,password){ 
+	    Parent.apply(this,new Array(username)); 
+	    
+	    this.password = password; 
+	    this.world = function(){ 
+	      	alert(this.password); 
+	    } 
+	  } 
+  	var parent = new Parent("zhangsan"); 
+  	var child = new Child("lisi","123456"); 
+  	parent.hello(); 
+  	child.hello(); 
+  	child.world(); 
+
+  	//继承的第四种方式：原型链方式，即子类通过prototype将所有在父类中通过prototype追价的属性和方法都追加到Child,从而实现了继承
+  	function Person() {
+  	}
+
+  	Person.prototype.hello = "hello";
+  	Person.prototype.sayHello = function() {
+  		alert(this.hello);
+  	}
+  	function Child() {
+
+  	}
+  	Child.prototype = new Person();//这行的作用是：将Parent中将所有通过prototype追加的属性和方法都追加到Child，从而实现了继承 
+  	Child.prototype.world = 'world';
+  	Child.prototype.sayWorld = function() {
+  		alert(this.word);
+  	}
+
+  	var c = new Child();
+  	c.sayHello();
+  	c.sayWorld();
+
+  	//继承的第五种方式：混合方式
+  	function Parent(hello) {
+  		this.hello = hello;
+  	}
+  	Parent.prototype.sayHello = function() {
+  		alert(thi.hello);
+  	}
+
+  	function Child(hello, world) {
+  		Parent.call(this, hello);
+  		this.world = world;
+  	}
+  	Child.prototype = new Parent();
+
+  	Child.prototype.sayWorld = function() {
+  		alert(this.world);
+  	}
+  	var c = new Child("zhangsan", "lisi");
+  	c.sayHello();
+  	c.sayWorld();
+	</script>
+</body>
+</html>

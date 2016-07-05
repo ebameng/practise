@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>getter&setter</title>
+</head>
+<body>
+	<script>
+	var o = {
+		//普通的数据属性
+		data_prop: "value",
+		get accessor_prop() {/* 这里是函数体*/ },
+		set accessor_prop(value) {/* 这里是函数体*/}
+	}
+
+	//通过原型继承创建一个新对象
+ 	function inherit(p) {
+ 		if(p == null) throw TypeError();  //p是一个对象，但是不能是null
+ 		if (Object.create) 	//如果Object.create()存在则直接使用这个函数创建
+ 			return Object.create(p);
+ 		var t = typeof p;  //否则进行进一步检测
+ 		if (t !== "object" && t !== "function") throw TypeError();
+ 		function f() {}; //定义一个空的构造函数
+		f.prototype = p; //将它的原型prototype设置为p
+		return new f();		//使用f()创建p的继承对象
+ 	}
+
+
+	var p = {
+		x: 1.0,
+		y: 1.0,
+
+		get r() {return Math.sqrt(this.x*this.x + this.y*this.y); },
+		set r(newvalue) {
+			var oldvalue = Math.sqrt(this.x*this.x + this.y*this.y);
+			var ratio = newvalue/oldvalue;
+			this.x *= ratio;
+			this.y *= ratio;
+		},
+
+		get theta() {
+			return Math.atan2(this.y, this.x);
+		}
+	}
+
+	var q = inherit(p);
+	q.x = 1, q.y = 1;
+	console.log(q.r);
+	console.log(q.theta);
+
+	var serialnum = {
+		$n: 0,
+
+		get next() {
+			return this.$n++;
+		},
+		set next(n) {
+			if (n >= this.$n) this.$n = n;
+			else throw "序列号的值不能比当前值小";
+		}
+	}
+
+
+	var random = {
+		get octet() {
+			return Math.floor(Math.random()*256); //Math.floor(),Math.ceil(),
+		},
+		get unit16() {
+			return Math.floor(Math.random()*65536);
+		},
+		get int16() {
+			return Math.floor(Math.random()*65536) -32768;
+		}
+	}
+
+	</script>.
+</body>
+</html>

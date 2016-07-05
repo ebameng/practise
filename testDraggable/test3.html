@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>jQuery UI Draggable + Sortable</title>
+  <script src="jquery.js"></script>
+  <script src="jquery-ui.min.js"></script>
+  <style>
+  ul { list-style-type: none; margin: 0; padding: 0; margin-bottom: 10px; }
+  li { margin: 5px; padding: 5px; width: 150px; }
+  </style>
+  <script>
+  $(function() {
+    var oldArr = [];
+
+    $("#sortable>li").each(function(){
+        oldArr.push($(this).data('id'));
+    });
+
+    $( "#sortable" ).sortable({
+      revert: true,
+      stop: function(event, ui) {
+          var $target = $(ui.item.context);
+          var newArr = [];
+          $("#sortable>li").each(function(){
+              newArr.push($(this).data('id'));
+          });
+          var index = '';
+          for (var i = 0; i < newArr.length; i++) {
+              if(newArr[i] == $(ui.item.context).data('id')) {
+                  console.log(i);
+                  index = i;
+                  break;
+
+              } 
+          };
+          var $s_target = $("#sortable li:nth-child("+index+")");
+      }
+    });
+  });
+  </script>
+</head>
+<body>
+ 
+<ul id="sortable">
+  <li class="ui-state-default" data-id="1">1</li>
+  <li class="ui-state-default" data-id="2">2</li>
+  <li class="ui-state-default" data-id="3">3</li>
+  <li class="ui-state-default" data-id="4">4</li>
+  <li class="ui-state-default" data-id="5">5</li>
+</ul>
+
+ 
+ 
+</body>
+</html>

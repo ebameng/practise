@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>jQuery UI Draggable + Sortable</title>
+  <script src="jquery.js"></script>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  <script src="jquery-ui.min.js"></script>
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <style>
+  ul { list-style-type: none; margin: 0; padding: 0; margin-bottom: 10px; }
+  li { margin: 5px; padding: 5px; width: 150px; }
+  </style>
+  <script>
+  $(function() {
+    $( "#sortable" ).sortable({
+      revert: true,
+      start: function(event, ui) {
+
+      }
+    });
+    /*$( "#draggable" ).draggable({
+      connectToSortable: "#sortable",
+      helper: "clone",
+      revert: "invalid"
+    });*/
+    $( "ul, li" ).disableSelection();
+
+    /*$('ul li').mouseup(function() {
+      alert('mouseup');
+    });*/
+
+    $('.item tbody').sortable('option', {disabled: true} );
+
+    $('div').text('rwerewrwerwerew');
+
+    $('body').on('input', 'div', function(e) {
+      alert(1111)
+    })
+
+  });
+  </script>
+</head>
+<body>
+ 
+<ul>
+  <li id="draggable" class="ui-state-highlight">Drag me down</li>
+</ul>
+ 
+<ul id="sortable">
+  <li class="ui-state-default">Item 1</li>
+  <li class="ui-state-default">Item 2</li>
+  <li class="ui-state-default">Item 3</li>
+  <li class="ui-state-default">Item 4</li>
+  <li class="ui-state-default">Item 5</li>
+</ul>
+<table class="item">
+  <tr class="ui-state-default test">
+    <td>Item 1</td>
+  </tr>
+  <tr class="ui-state-default"><td>Item 2</td></tr>
+  <tr class="ui-state-default"><td>Item 3</td></tr>
+  <tr class="ui-state-default"><td>Item 4</td></tr>
+  <tr class="ui-state-default"><td>Item 5</td></li>
+</table>
+<div>ewfew</div>
+ 
+ 
+</body>
+</html>

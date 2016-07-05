@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	aaa
+</body>
+</html>
+
+<script>
+	window.onload = function(){
+		compareTime()
+	}
+		function compareTime(){
+			var nowDate = new Date();
+			var passDate = new Date(2014,9,21,11,33,0);
+			var timeText='';
+
+	        //计算毫秒数
+	        var date = nowDate.getTime()-passDate.getTime();
+
+	        //计算天数
+	        var days = Math.floor(date/(24*3600*1000));
+	        console.log(days)
+	        if(days>0 && days<30){
+	        	timeText = days + '天前';
+	        	console.log(timeText)
+	        }
+	        if(days>=30 && days<365){
+	            var months = Math.floor(days/30);
+	            timeText =  months-1 + '个月前';
+	            console.log(timeText)
+	        }
+	        if(days>=365){
+	            var years = Math.floor(days/365);
+	            timeText = years + '年前';
+	            console.log(timeText)
+	        }
+	        //计算小时数
+	        var levae1 = date%(24*3600*1000);
+	        console.log(levae1)
+	        var hours = Math.floor(levae1/(3600*1000));
+	        if(hours>0 && days == 0){
+	        	timeText = hours + '小时前'
+	        	console.log(timeText)
+	        }
+
+	        //计算相差的分钟数
+	        var levae2 = levae1%(3600*1000);
+	        var mimutes = Math.floor(levae2/(60*1000));
+	        if(mimutes>0 && days == 0 && hours == 0){
+	        	timeText = mimutes + '分钟前';
+	        	console.log(timeText)
+	        }
+
+	        //计算相差秒数
+	        var levae3 = levae2%(60*1000);
+	        var seconds = Math.round(levae3/1000);
+	        if(seconds>=0 && mimutes == 0 && days == 0 && hours == 0){
+	        	timeText = '刚刚'
+	        	console.log(timeText)
+	        }
+		}
+	</script>

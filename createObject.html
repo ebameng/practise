@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>createObjet</title>
+</head>
+<body>
+	<script>
+	//工厂模式创建对象
+	function createPerson(name, age, job) {
+		var o = {};
+		o.name = name;
+		o.age = age;
+		o.job = job;
+		o.sayName = function() {
+			alert(this.name);
+		};
+		return o;
+	}
+	var tanya = createPerson("tanya", "30", "qianduan");
+	var jinwen = createPerson("jinwen", "20", "java");
+	tanya.sayName();
+	jinwen.sayName();
+
+
+	//这里先定义o为一个空的对象，然后为o设置了一堆属性。其实也可以直接给o属性的嘛，所以如果这样写也是ok的。 
+	function createPerson(name,age,job){ 
+		var o = { 
+			name : name, 
+			age : age, 
+			job : job, 
+			sayName : function(){ 
+				alert(this.name); 
+			} 
+		}; 
+		return o; 
+	} 
+	var tanya = createPerson("tanya","30","female"); 
+	var ansel = createPerson("ansel","30","male"); 
+	tanya.sayName(); 
+	ansel.sayName(); 
+
+	//还有一种办法是利用无敌的this，因为this就表示当前运行时的对象，将构造函数this的作用域指向新对象，将当前运行对象的属性和方法都赋给新对象，这样对象模式称为构造函数模式 
+	function Person(name,age,job){ 
+		this.name = name; 
+		this.age = age; 
+		this.job = job; 
+		this.sayName = function(){ 
+			alert(this.name); 
+		}; 
+	} 
+	var tanya = new Person("tanya","30","female"); 
+	var ansel = new Person("ansel","30","male"); 
+	tanya.sayName(); 
+	ansel.sayName(); 
+
+	//在这个例子中，tanya和ansel都有一个constructor属性，该属性指向person。 考虑一下如下的情况： 
+	function Person(name,age,job){ 
+		this.name = name; 
+		this.age = age; 
+		this.job = job; 
+		this.sayName = function(){ 
+			alert(this.name); 
+		}; 
+	} 
+	Person("tanya","30","female"); 
+	Person("ansel","30","male"); 
+	window.sayName(); 
+	window.sayName(); 
+
+	//发现两次弹出的都是ansel，这是因为不用new的话，就不是一个person的实例，而仅仅在执行函数。而在全局作用域调用一个函数时this总是指向Global对象。而Global对象在浏览器中就是window对象。 我们还可以用构造模式在另外一个对象中调用sayName方法，还记得Apply和call么，来吧再考虑另外一种情况， 
+	function Person(name,age,job){ 
+		this.name = name; 
+		this.age = age; 
+		this.job = job; 
+		this.sayName = function(){ 
+			alert(this.name); 
+		}; 
+	} 
+	var olivia = {}; 
+	Person.call(olivia,"tanya","30","female"); 
+	olivia.sayName(); 
+	var philip = {} 
+	Person.apply(philip,["ansel","30","male"]); 
+	philip.sayName(); 
+
+	//原型模式就要考虑原型链了，分析一下，sayName方法在实例中被重复定义了两次，但其实没有必要创造两个一样的副本。使用原型方法，可以使是tanya和ansel的共享一个sayName方法。 
+	//于是原型模式的写法如下： 
+	function Person(name,age,job){ 
+		this.name = name; 
+		this.age = age; 
+		this.job = job; 
+	} 
+	Person.prototype.sayName= function(){ 
+		alert(this.name); 
+	}; 
+	var tanya = new Person("tanya","30","female"); 
+	var ansel = new Person("ansel","30","male"); 
+	tanya.sayName(); 
+	ansel.sayName(); 
+
+	//实际应用时，不是一成不变的套用某种模式，活学活用。需要共享方法的时候就用原型模式，需要使用副本的时候就用构造模式，还可以结合起来，把所有信息都封装在构造函数中，而通过在构造函数中初始化原型，使得对象保持了同时使用构造函数和原型的优点
+	function Person(name,age,job){ 
+		this.name = name; 
+		this.age = age; 
+		this.job = job; 
+		if (typeof sayName != "function" ){ 
+			Person.prototype.sayName= function(){ 
+				alert(this.name); 
+			}; 
+		} 
+	} 
+	var tanya = new Person("tanya","30","female"); 
+	var ansel = new Person("ansel","30","male"); 
+	ansel.sayName = function () { 
+		alert("Hi ansel, how hansome you are!"); 
+	} 
+	tanya.sayName(); 
+	ansel.sayName(); 
+	</script>
+</body>
+</html>

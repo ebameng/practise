@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>继承</title>
+</head>
+<body>
+	<script>
+
+		//通过原型继承创建一个新对象
+	 	function inherit(p) {
+	 		if(p == null) throw TypeError();  //p是一个对象，但是不能是null
+	 		if (Object.create) 	//如果Object.create()存在则直接使用这个函数创建
+	 			return Object.create(p);
+	 		var t = typeof p;  //否则进行进一步检测
+	 		if (t !== "object" && t !== "function") throw TypeError();
+	 		function f() {}; //定义一个空的构造函数
+			f.prototype = p; //将它的原型prototype设置为p
+			return new f();		//使用f()创建p的继承对象
+	 	}
+
+		var o = {} // o 从Object.prototype继承对象的方法
+		o.x = 1;   //给o 定义一个属性赋值为1
+		var p = inherit(o); // p 继承o和Object.prototype
+		p.y = 2; 	//给p定义一个属性y并赋值为2
+		var q = inherit(p); //q继承p,o 和Object.prototype
+		q.z = 3; //给q定义一个属性z
+		var s = q.toString(); //toString继承自Object.prototype
+		console.log(q.x + q.y) //3
+		//q已有属性z=3,q.__proto__继承了p的y=2，p的__proto__继承了o的x=1
+
+		/*q
+		Object {z: 3} z: 3 __proto__: Objecty: 2__proto__: Objectx: 1__proto__: Object*/
+
+
+		var unitcircle = {r:1};
+		var c = inherit(unitcircle);
+		c.x = 1; c.y = 1;
+		c.r = 2;		//c的r属性覆盖了继承来的r属性，但不影响它继承的原型对象相关属性
+		unitcircle.r;   // =>1 , 原型对象没有修改
+
+		//属性访问错误问题
+		//各种问题。留个点下午来写
+		
+
+		//删除属性
+		o = {x:1};
+		delete o.x;  //o不再有x属性,返回true
+		delete o.x;  //什么都没做（x已经被删除了），返回true
+		delete o.toString; //什么都没做（toString是继承来的），返回true
+		delete 1;  	 //无意义，返回true
+
+		//delete不能删除可配置性为false的属性（尽管可以删除不可扩展对象的可配置属性）
+
+		delete Object.prototype;  //=>false 不能删除，属性是不可配置的。在严格模式中会报类型错误
+		var x = 1; //声明一个全局变量
+		delete this.x;  //=>false ,不能删除这个属性
+		function f() {};  //声明一个全局函数
+		delete this.f;    //=>false  不能删除全局函数
+
+		this.x = 1; //创建一个可配置的全局属性（没有用var)
+		delete x; //将它删除
+
+		delete x;	//在严格模式下报语法错误
+		delete this.x;	//正常工作
+
+
+		// 检测属性
+		/*javascript可以看作属性的集合，我们经常会检测集合中成员的所属关系————判断某个属性是否存在于某个对象中。可以通过in运算符，hasOwnProperty()和propertyIsEnumerable()方法来完成这个工作，甚至仅通过属性查询也可以做到这一点。*/
+
+		var o = {x:1};
+		"x" in o;			//true: "x"是o的属性
+		"y" in o;			//false: "y"不是o的属性
+		"toString" in o;	//true: o继承toString的属性
+
+		//hasOwnProperty()检测是否是对象的自有属性，对于击沉属性会返回false
+		o.hasOwnProperty("x"); //true
+		o.hasOwnProperty("y");  //false
+		o.hasOwnProperty("toString"); //false
+
+		//propertyIsEnumerable() 属性的枚举的意思,是hasOwnProperty()的增强版，enumerable枚举
+		var o = inherit({y:2});
+		o.x = 1;
+		o.propertyIsEnumerable("x");	//true: o有一个可枚举的自有属性
+		o.propertyIsEnumerable("y");	//false: y是继承来的
+		Object.prototype.propertyIsEnumerable('toString'); //false: 不可枚举
+
+		//  !== 更加简便，判断一个属性是否是undefined
+		var o = {x:1};
+		o.x !== undefined; //true
+		o.y !== undefined; //false
+		o.toString !== undefined; //true
+
+		//只有in可以区分不存在的属性和存在但值为undefined的属性。
+		var b = {x: undefined}
+		b.x !== undefined //false:属性存在，但值为undefined
+		b.y !== undefined //false:属性不存在
+		"x" in b //true:属性存在
+		"y" in b //false:属性不存在
+		delete b.x;
+		"x" in b; //false:属性已经不存在了
+		
+
+
+
+		//枚举类型
+		var o = {x:1, y:2, z:3};
+		o.propertyIsEnumerable("toString")
+		for(p in o) 
+			console.log(p);
+
+		//避免非枚举类型
+		for(p in o) {
+			if (!o.hasOwnProperty(p)) continue;	//跳过继承的属性
+		}
+		for(p in o) {
+			if (typeof o[p] === "function") continue; //跳过方法
+		}
+
+		function extend(o, p) {
+			for (prop in p) {		//遍历p中的所有属性
+				o[prop] = p[prop];	//将属性添加至o中
+			}
+			return o;
+		}
+
+		function merge(o, p) {
+			for (prop in p) {	//遍历p中的所有属性
+				if (o.hasOwnProperty[prop]) continue;	//过滤掉在o中已经存在的属性
+				o[prop] = p[prop];	//将属性添加至o中
+			}
+			return o;
+		}
+
+		function restrict(o, p) {
+			for (prop in o) {	//遍历o中的所有属性
+				if (! (prop in p)) delete o[prop];	//如果属性在p中不存在，删除这个属性
+			}
+			return o;
+		}
+
+		function substract(o, p) {
+			for (prop in p) {	//遍历p中的所有属性
+				delete o[prop];		//从o中删除（删除一个不存在的属性不会报错）
+			}
+			return o;
+		}
+
+		/*返回一个新对象，这个对象同事有o和p的属性。如果o和p中有重名属性，使用p中的属性值*/
+		function union(o, p) {
+			return extend(extend({}, o), p);
+		}
+
+		/*返回一个新对象，这个对象同事有o和p的属性。很像求o和p的交集，但是p的属性值被忽略*/
+		function intersection(o, p) {
+			return restrict(extend({}, o), p);
+		}
+
+		/*返回一个数组，这个数组包含的是o中可枚举的自由属性的属性名*/
+		function keys(o) {
+			if (typeof o !== "object") throw TypeError();
+			var result = [];
+			for (var prop in o) {
+				if (o.hasOwnProperty(prop))
+					result.push(prop);
+			}
+			return result;
+		}
+
+		//ECMAScript 5定义了两个用以枚举属性名称的函数，Object.keys()和Object.getOwnPropertyNames()
+		//Object.keys()返回对象中可枚举的自由属性的名称数组
+		//Object.getOwnPropertyNames()返回对象中所有自有属性的名称
+		
+		
+	</script>
+</body>
+</html>

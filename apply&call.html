@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>apply()和call()方法</title>
+</head>
+<body>
+	<script>
+		function Parent(age, name) {
+			this.age = age;
+			this.name = name;
+		}
+
+		function Child(age, name, location) {
+			//Parent.apply(this, arguments);
+			Parent.call(this, age, name);
+			this.location = location;
+			console.log('我是' + name + '我今年' + age + '我住在' + location);
+		}
+		var child = new Child(18, 'pjw', 'shenzhen');
+		//Child(18, 'pjw', 'shenzhen');
+	</script>
+
+</body>
+
+</html>

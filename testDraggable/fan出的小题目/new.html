@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="jquery.js"></script>
+</head>
+<body>
+<!-- 
+编程题一
+精简版本题目:
+给你一个网页地址, 求得到这个网页所访问的所有js文件的url.
+而实际上给你的是多个域名地址, 哇哈哈哈哈哈.....
+如:（注：因英文格式的引号会被转义，故而示例皆用中文单引号） 
+假设www.aaa.com域名主页访问的js列表是:http://xxx.xxx.com/xxx/xx.js, http://yyy.abc.com/yy/yy.js。
+那么得到的结果是：
+{
+host : ‘www.aaa.com’,
+urls : [ ‘http://xxx.xxx.com/xxx/xx.js’, ‘http://yyy.abc.com/yy/yy.js’ ]
+}
+因是多个域名, 所以得到的规则范例是数组形式, 结构如下:
+[ 
+{
+host : ‘www.aaa.com’,    // 第一个站点所访问的js列表
+urls : [ ‘http://xxx.abc.com/xxx/xx.js’, ‘http://yyy.abc.com/yy/yy.js’, ... ]
+}, 
+{
+host : ‘www.bbb.com’,   // 第二个访问的js列表
+urls : [ ‘http://xxx.abc.com/xxx/xx.js’, ‘http://yyy.abc.com/yy/yy.js’, ... ]
+}, 
+...
+{
+host : ‘www.ccc.com’,   // 第100个访问的js列表
+urls : [ ‘http://xxx.abc.com/xxx/xx.js’, ‘http://yyy.abc.com/yy/yy.js’, ... ]
+}
+ ]
+来吧, 享受编码的乐趣, 用程序的思维思考程序!
+实际需要分析的域名列表, 在附件文件中 -->
+	<script>
+var hostArr = ["offlintab.firefoxchina.cn","mjs.sinaimg.cn","s1.rr.itc.cn","s2.rr.itc.cn","g.alicdn.com","a.tbcdn.cn","r3.ykimg.com","static.youku.com","s0.m.hao123img.com","book.easou.com","static.tianyaui.com","3gimg.qq.com","m1.ifengimg.com","newebapp0.nuomi.bdimg.com","static.zongheng.com","s2.xs8xs8.cn","res.wx.qq.com","static.qiyi.com","res.3g.cn","img1.cache.netease.com","img2.cache.netease.com","img3.cache.netease.com","www.siwaluntan.com","i.gtimg.cn","imgcache.gtimg.cn","h5.m.taobao.com","tb2.bdstatic.com","js.aq.qq.com","film.sohu.com","m.pc6.com","m.it168.com","concert1.m.yystatic.com","wap.17wo.cn","www.180187.net","cdn.tanx.com","uaction.alicdn.com","img.baidu.com","download.ntalker.com","wifi.ggsafe.com","img3.tieyou.com","pub.idqqimg.com","qzonestyle.gtimg.cn","www.100tk.com","www.4v5v6v.com","js.users.51.la","static.51y5.net","bd.3987.com","static.iqiyi.com","lxbjs.baidu.com","static.ykimg.com","qmcai.com","m.tv.sohu.com","static.360buyimg.com","m.xunlei.com","c3.moogos.com","cp.mi.com","900kj.com","g.221fanli.com","imgcache.qq.com","77jxjx.com","sd.china.com.cn","770878.com","static1.searchbox.baidu.com","dup.baidustatic.com","changyan.itc.cn","www.972pp.com","js.tv.itc.cn","www.20678.com","tv.sohu.com","ctc.qzonestyle.gtimg.cn","mat1.gtimg.com","res.imtt.qq.com","open.mobile.qq.com","m.52kkm.com","m.ku6.com","atanx.alicdn.com","apps.bdimg.com","gd.qq.com","i.sso.sina.com.cn","bdimg.share.baidu.com","tracklog.58.com","ossweb-img.qq.com","v.qq.com","cpro2.baidustatic.com","dig.qianbao666.com","mmcaomm.com","xui.ptlogin2.qq.com","m.yuntu.baidu.com","wq.360buyimg.com","gw.alicdn.com","qzs.qq.com","static.wkanx.com","changyan.sohu.com","mobads.baidu.com","misc.360buyimg.com","zzd.sm.cn","passport.baidu.com","www.kmm3366.com","jqmt.qq.com","static.kakamobi.com","h5.m.jd.com","woocall.sina.com.cn","m.uczzd.cn","a.disquscdn.com","log.juangua.com","m.fun.tv","a1.itc.cn","www.51huaigege.com","m.baidu.com","www.duowan.com","www.google-analytics.com","iknowwap.bdimg.com","wx.lemall.com","static.soku.com","st.360buyimg.com","www.hunantv.com","h.88kj.com","cdn.reporo.net","anzhuofile.myie.cc","assets.adobedtm.com","c.wrating.com","bbs.7to.cn","store.qbao.com","bstatic.pc6.com","m.people.cn","y.qq.com","wapwenku.baidu.com","www.555zw.com","gd.10086.cn","m.mumayi.com","www.qiushibaike.com","res.hunantv.com","wifi.pingan.com","www.725ee.com","icon.zol-img.com.cn","connect.qq.com","m.hunantv.com","bbs.rednet.cn","g.tbcdn.cn","uaction.aliyuncdn.com","itry.com","m.jd.hk","vs.6zwz.com","stat.xywy.com","cdn.sitemonitor.cn.miaozhen.com","cdn.jesgoo.com","ccswap.act.qq.com","m.pcpop.com","vip.233166.com","c.admaster.com.cn","m.xieeji.com","libs.baidu.com","dcjs.cig.com.cn","static.zhihu.com","kj55.888617.com","btlaunch.baidu.com","www.0573ren.com","s.lianmeng.360.cn","www.360doc.cn","js.zol.com.cn","s4.qhimg.com","br2.sm.cn","js.ctags.cn","111kj.cc","static.tieba.baidu.com","m.oppo.cn","www.874pp.com","www.googletagservices.com","js.xtgreat.com","m.110.com","ds4.providesupport.com","f420-76ec-dea2-a571.reporo.net","www.4lugg.com","cpro.zhidao.baidu.com","www.xmkk686.org","fuwu.sf-express.com","www.qbcdn.com","dl.web.sogoucdn.com","www.0779cc.com","www.ptdxh.cc","baidu2.sanbadao.net","m.qbao.com","zhongwei.s.gifshow.com","s.csbew.com","afpcreative.wasu.cn","img.bookcpu.com","pic.fastapi.net","kf.qq.com","api.dreamfull.cn","cn.bing.com","www.46ng.com","wx.itry.com","www.979990.com","bstatic.nanrenwo.net","css.7410.cc","sq.3g.qq.com","m.gifxiu.net","img.gmw.cn","bbs1.people.com.cn","www.653pp.com","pan.baidu.com","www.64ah.com","3g.club.xywy.com","bla.gtimg.com","www.499333.com","api.chuchujie.com","s2.qhimg.com","buluo.qq.com","adsfile.qq.com","www.6004.com","ui.ptlogin2.qzone.com","tianqi.2345.com","j2.58cdn.com.cn","n.youyuan.com","ad.toutiao.com","zq2.www777.info","m.laonanren.com","m.beibei.com","m.weimob.com","combo.b.qq.com","www.68xu.com","s3.56img.com","auto.alicdn.com","player.hz.letv.com","d.kuku3g.com","js.kuwo.cn","lib.sinaapp.com","res.mall.10010.cn","www.760999.com","www.48111.com","444050.com","to3.ysjwj.com","y0.ifengimg.com","pstatic.xunlei.com","www.350888.com","static.bshare.cn","su.bdimg.com","ra.gtimg.com","m.qhb.qbao.com","wapask.39.net","ld.m.jd.com","www.6638.com","img0.bdstatic.com","ddcc11.com","wt.39.net","kj.6hc33.com","imgs.xin.com","count.pcpop.com","1.banguolai8.sinaapp.com","www.hoideas.com","m.t259.cc","www.54433.com","b.scorecardresearch.com","m.gdyfs.com","c.meilubao.com","jb.27270.com","img2.bdstatic.com","m.3h3.com","www.9db.cc","static.17zwd.com","www.23uv.com","ads.makak.cn","assets.alicdn.com","v3.jiathis.com","player.youku.com","s.wasu.cn","siteapp.baidu.com","mini.eastday.com","www.dushijiqing.com","s0.pstatp.com","static.newyx.net","cache.soso.com","shop.51buywhat.com","bm78.com","www.kaoshi6.com","b4cc.com","m.manhuatai.com","www.tk058.com","3g.ali213.net","x.autoimg.cn","bpa.baidu.com","irnvf.lu.sogou.com","6500200.com","www.bookabc.net","static.track.58.com","3.kongjian008.sinaapp.com","m.66mm.cc","s2.pstatp.com","www.7788xiaoshuo.net","m.huanqiu.com","static.itry.com","js.player.cntv.cn","s2.56img.com","z.008kj.com","m.zhuna.cn","static.cnmo-img.com.cn","m.92zw.com","7o503d.com2.z0.glb.qiniucdn.com","3glogo.gtimg.com","appsearchcdn.baidu.com","zm6.sm-img2.com","m.kanzhun.com","www.0739bbs.com","app.iyuba.com","www.qq.com","cdn.moogos.com","www.998998.com","m.cr173.com","stats.g.doubleclick.net","m.dushijiqing.com","img.tp123456.com","pic2.58.com","kj1.915678.com","astyle-src.alicdn.com","m.xl9.xunlei.com","cdn1.fstcdn.com","www.languang.cc","kf.weimob.com","v1.jiathis.com","js.letvcdn.com","www.42gi.com","static.bbs.letv.com","www.888322.com","js.tudouui.com","m.youqu.net","android.diy.moxiu.com","123.mse.sogou.com","tenpay.act.qq.com","static.aizhan.com","wap.sogou.com","js.0728qz.com","m.0033.com","390hhh.com","info.3g.qq.com","m.999wx.com","www.jd587.com","y3.ifengimg.com","bookstore2.shuqireader.com","images.sohu.com","m.sjzhushou.com","99redy.com","ecma.bdimg.com","discuz.gtimg.cn","static.o2o.lianwifi.com","image.bitautoimg.com","m.x4jdm.com","www.118ccc.com","js.bookbao.com","www.991166.com","s1.pplive.cn","cdn3.hertzhu.com","www.97mm.net","yuntv.letv.com","www.56.com","gamecenter.qq.com","www.28hhhh.com","fundact.eastmoney.com","statics.76sd.com","static.baifendian.com","wap.yzmg.com","www.839ee.com","static.pay.baidu.com","jslib.nearme.com.cn","qt.qq.com","webtrends.yccdn.com","p.inte.sogou.com","m2.people.cn","baidu.114fw.com","m.27270.com","js.tongji.linezing.com","cdn.sur.ly","www.770ee.com","m.qkcdn.com","tjs.sjs.sinajs.cn","static.gridsumdissector.com","gm682.com","www.cy606.com","js.284418.com","static.tvmao.com","mp.gtimg.cn","mst.vip.com","stc.weimob.com","minigame.qq.com","mzt.vip.com","haoxxoo.com","www.cmigate.com","gx.10086.cn","pagead2.googlesyndication.com","niu60.com","s0.hao123img.com","yun.duiba.com.cn","s1.56img.com","sqimg.qq.com","www.kj6666.com","cpro.baidu.com","vac.qq.com","tcss.qq.com","3rd.vipstatic.com","www.55877.com","m.kugou.com","www.0412.com","m.sogou.com","www.305pp.com","static.js.xywy.com","kj.22249.com","dy.haoav01.com","static.atm.youku.com","bqq.gtimg.com","www.redones.cn","www.662pp.com","ms2-m.vipstatic.com","www.googletagmanager.com","s1.url.cn","kj28.com","j1.58cdn.com.cn","t5.baidu.com","wenku.baidu.com","m.chuixue.com","exp.bdstatic.com","bddaima.gexing.com","m.3318dm.com","www.24iv.com","www.kj26.com","baike.bdimg.com","static.duoshuo.com","tv.uc.cn","huanle.qq.com","m.yunfuseqing.com","home.m.jd.com","wl.jd.com","www.99re1.org","special.hkjc.com","huodongcdn.chuchujie.com","static.wenwo.com","www.308k.com","baidu.808929.com","www.08433.com","code.jquery.com","ctc.qzs.qq.com","i1.hdfimg.com","static.hdslb.com","sm.domobcdn.com","static9.pplive.cn","s.url.cn","jiaoben.gai120.com","js.cnmo.com","analytics.163.com","static.to8to.com","rescn.u3.ucweb.com","img.sholzz.net","vzhuan.cn","v2.jiathis.com","bdjs.gwapi.net","www.03113.com","www.hugao8.com","m.benziku.cc","lol.qq.com","wappass.baidu.com","assets.changyan.sohu.com","1.chohb222.sinaapp.com","www.icoat.cc","p5.yokacdn.com","data.auto.ifeng.com","gg.zhi-zhi.com","www.iqyhygx.com","m.1684.cc","s1.map.bdimg.com","www.xxxx100.com","image.go108.com.cn","img.qiu-ai.com","y1.ifengimg.com","www.sogou.com","misc.web.xunlei.com","www.sinaimg.cn","m0.ifengimg.com","js.hunantv.com","stock.sohu.com","finance.sina.com.cn","partner.googleadservices.com","www.kting.cn","www.sohu.com","d8.sina.com.cn","img2.mini.cache.wps.cn","js.webcollect.kugou.com","passport.bdimg.com","cpro.baidustatic.ifeng.com","bbs.guitarchina.com","sz.duowan.com","pimg1.126.net","assets.dwstatic.com","edge.quantserve.com","tgp.qq.com","ui.ptlogin2.qq.com","tg.602.com","pl.weixinbang.com","44rkrk.com","fm.p0y.cn","static.kgimg.com","www.qufenqi.com","staticlive.douyutv.com","1.qtmojo.com","click.wrating.com","www.zhongxinghuanyu.com","cdn.zampdsp.com","www.hao123.com","list.video.baidu.com","style.c.aliimg.com","src.wei.focus.cn","vip2.rwjfs.com","blog.sina.com.cn","img3.doubanio.com","cb.alimama.cn","www.cntv.cn","i3.sinaimg.cn","www.meijutt.com","d.123.sogoucdn.com","www.wlanwifi.net","zhstatic.zhihu.com","cdn.vamaker.com","creatim.qtmojo.cn","js.mail.sohu.com","csdnimg.cn","urchin.lstat.youku.com","image.uc.cn","static.kugou.com","r1.ykimg.com","news.sohu.com","image.tgp.qq.com","enrz.com","vjoz.lu.sogou.com","impservice2.youdao.com","s8.qhimg.com","res.stat.xunlei.com","tieba.baidu.com","sports.sina.com.cn","img6.cache.netease.com","qzs.qzone.qq.com","s1.pan.bdstatic.com","tajs.qq.com","img3.douban.com","v2.uyan.cc","ecmb.bdimg.com","movie.qijiannet.com","static.anquan.org","js.adm.cnzz.net","nfa.jd.com","www.77kp.com","vs5.bdstatic.com","imp.go.sohu.com","player.hunantv.com","ent.sina.com.cn","js2.t.sinajs.cn","h5.sinaimg.cn","d9.sina.com.cn","12306.ie.sogou.com","www.nianzhi.cc","iknowpc.bdimg.com","wei.sohu.com","s5.qhimg.com","js1.t.sinajs.cn","www2.kugou.com","h2.ifengimg.com","static.geetest.com","news.sina.com.cn","s7.qhimg.com","js.t.sinajs.cn","static.wenku.bdimg.com","js.sohu.com","dl.pinyin.sogou.com","d.yoyi.tv","www.baidu.com","data.bilibili.com","www.stooorage.com","ssp.ad.xiaomi.com","www.ygdy8.net","c.csdnimg.cn","geo.news.sohu.com","bbs.cnhubei.com","tongji.zhidao.baidu.com","extention.ie.sogou.com","mat.zdface.com","hotnews.duba.com","v.behe.com","auto.sina.com.cn","33luba.com","d2.sina.com.cn","i0.sinaimg.cn","i2.sinaimg.cn","img.alimama.cn","www.googleadservices.com","img.twcczhu.com","tui.kugou.com","d.3.cn","s1.bdstatic.com","p0.qq.sogoucdn.com","act.tgp.qq.com","www.dy1234.net","a.alimama.cn","cdn.zampda.net","static.xmp.kankan.com","d1.sina.com.cn","img1.bdstatic.com","ads.adinall.com","mini2015.qq.com","www.2345.com","www.sina.com.cn","impservice.union.youdao.com","img3.5757qq.com","tb1.bdstatic.com","img2.template.cache.wps.cn","qqgameplatcdn.qq.com","cdnmaster.com","p.ns5n.com","s0.qhimg.com","www.bilibili.com","bbs.youzu.com","tpc.googlesyndication.com","www.xiamp4.com","tech.sina.com.cn","www.cctv.com","interface.bilibili.com","pianku.xmp.kankan.com","webs.tgp.qq.com","cdn.tianmidian.com","update.gouwu.sogoucdn.com","www.tvbts.com","honey.hunantv.com","www2.kugou.kugou.com","static.acs86.com","cdn.scdng.com","www.kugou.com","s6.qhimg.com","gameact.qq.com","h0.ifengimg.com","m.kejet.net","vs6.bdstatic.com","vm.gtimg.cn","eiv.baidu.com","www.duba.com","r2.ykimg.com","weiduan.qq.com","gh.jiankang.58.com","game.qq.com","y2.ifengimg.com","zhannei.baidu.com","img1.mini.cache.wps.cn","x.paipaiimg.com","channel.fanxing.kugou.com","guess.tf.360.cn","img.adbox.sina.com.cn","static.mediav.com","cdn.tgp.qq.com","mat1.qq.com","errsug.se.360.cn","s.cr-nielsen.com","js1.pcfg.cache.wps.cn","ms0.meituan.net","m.hujiang.com","x.jd.com","i1.sinaimg.cn","j.wit.qq.com","track.ra.icast.cn","img.ibluedsp.com","js.static.m1905.cn","s1.hao123img.com","download.ie.sogou.com","comment.news.sohu.com","vs3.bdstatic.com","webcollect.kugou.com","vas.fun.tv","static.googleadsserving.cn","static.funshion.com","g.c8ft.com","sjs.sinajs.cn","js.passport.qihucdn.com","passport.weibo.com","r.img.cctvpic.com","www.dytt8.net","m.repian.com"];
+
+	$(document).ready(function() {
+
+		var hostArr = ['baidu.com', 'momentjs.cn/']
+
+		var pig = [];
+
+
+		var host = hostArr[0];
+		var urls = [];
+
+		var dog = {};
+
+		dog.host = host;
+
+		$.ajax({
+				url: 'http://baidu.com'/*+ hostArr[0]*/,
+				dataType: 'jsonp',
+				async: false, 
+				cache: false, 
+				success: function(rs) {
+					alert(11)
+				},
+				error: function() {
+					alert(2222)
+				},
+				complete: function(XMLHttpRequest, textStatus) {
+					var data = $('script').each(function(){});
+					for (var j = 0; j < data.length; j++) {
+						if(data[j].src) {
+							urls.push(data[j].src);
+						}
+					};
+					
+					dog.urls = urls;
+
+					pig.push(dog);
+					console.log(JSON.stringify(pig));
+				}
+			});
+
+		/*for (var i in hostArr) {
+
+			var host = hostArr[i];
+			var urls = [];
+
+			var dog = {};
+
+			dog.host = host;
+
+			$.ajax({
+				url: 'http://'+ hostArr[i],
+				dataType: 'jsonp',
+				async: false, 
+				cache: false, 
+				success: function(rs) {
+			
+				},
+				complete: function() {
+					var data = $('script').each(function(){});
+					for (var j = 0; j < data.length; j++) {
+						if(data[j].src) {
+							urls.push(data[j].src);
+						}
+					};
+
+					dog.urls = urls;
+
+					pig.push(dog);
+					console.log(JSON.stringify(pig));
+				}
+			})*/
+
+			
+			/*$.get('http://'+hostArr[i], 'type=jsonp', function(rs) {
+				alert(rs)
+			})
+
+			//var data = $('script').each(function(){});
+		};*/
+
+	})
+	</script>
+</body>
+</html>

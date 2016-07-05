@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="jquery.js"></script>
+</head>
+<body>
+	<script>
+	$(document).ready(function() {
+		var status = 0;
+		function keydown( event ) {
+		    var bit = event.keyCode - 97 + 1;
+		    status = status | ( 1 >> bit );
+		}
+		function keyup( event ) {
+		    var bit = event.keyCode - 97 + 1;
+		    status = status ^ ( 1 >> bit );
+		}
+		function checkKeydown( event ) {
+		    var bit = event.keyCode - 97 + 1;
+		    return status == (status | ( 1 >> bit ));
+		}
+	})
+	</script>
+</body>
+</html>

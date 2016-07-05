@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+<script>
+var i=9;
+function fo(){
+	var i=0;
+	return function(n){
+		//return n+i++;//原题是这样的。n和i先相加，然后i再累加
+		//return n+++i;//扩展一下思咱：如果改造成这样的代码会是什么答案。（n先和i相加，然后n自己再累加）
+		return n+(++i);//这样呢？（i先累加，然后n和i再相加）
+		//首先要明确这个i是那儿定义的，当这个方法运行的时候。
+	}
+};
+
+var f=fo();
+//var a = f(15); alert(a);
+var b = fo()(15);
+var c = fo()(20);
+//var d = f(20);alert(d);
+//
+var a = 1;
+function func() {
+	a = av = 2;
+}
+func();
+//alert(a);
+//alert(av);
+//
+function adwe() {
+	aeqw = 5;
+	alert(aeqw);
+	alert(window.aeqw);
+	var aeqw = 10;
+	alert(aeqw);
+};
+adwe();
+
+
+</script>
+</body>
+</html>

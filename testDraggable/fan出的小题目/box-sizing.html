@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	.content-box {
+    width: 250px;
+    height: 50px;
+    margin: 10px;
+    box-sizing: content-box;
+    padding: 10px;
+    border: 1px solid #000;
+	}
+	.border-box {
+		width: 250px;
+    height: 50px;
+    margin: 10px;
+    box-sizing: border-box;
+    padding: 10px;
+    border: 1px solid #000;
+	}
+	</style>
+</head>
+<body>
+	<div class="content-box">box-sizing:content-box</div>
+	<div class="border-box">box-sizing:border-box</div>
+	<p>
+		<span style="color: #0f0;">所以border-box是指当前内容的宽高等于width-(margin+padding+border)  
+		& height-(margin+padding+border)</span><br/>
+
+
+		content-box是指当前内容的宽高就等于width和height,实际宽高等于width+margin+padding+border；<br>
+		兼容性IE8及以上
+
+	</p>
+</body>
+</html>

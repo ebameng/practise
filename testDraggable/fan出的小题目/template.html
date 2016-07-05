@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="jquery.js"></script>
+</head>
+<body>
+	<script>
+/*	第一题:
+function format( str, arr ) {
+    var ret;
+    // --- 
+    return ret;
+}
+入参str是个模版字符串, arr是个数组对象, 要求, 讲模版中的内容用数组中的数据填充
+如: {0} 对应数组下标0的数据填充
+format( 'my name is {0}', [ 'sb' ] );
+返回 my name is sb
+
+
+第二题:
+在第一题的基础上, 增加对象属性填充
+如: 
+format( '{b.c}年是{a}年', { a : '猴', b : { c : 2016 } } );
+返回: 2016年是猴年
+
+第三题：
+format函数, 支持数组,对象填充, 同时支持表达式
+如:
+format( '我是{return sex==0 ? "女" : "男"}', {sex : 0} )
+*/
+	$(document).ready(function() {
+
+			function format ( str, arr) {
+				var ret,
+						valueArr,
+						val,
+						factVal,
+						exstr = '',
+						str,
+						currentValue,
+						x,
+						j;
+
+				if(arr.length <= 0) {
+					return;
+				}
+				
+				valueArr = str.match(/{[^}]+}/g).map(function(a) {
+					return a.slice(1, -1);
+				});
+
+
+				if(typeof arr == 'object') {
+					
+					if(arr instanceof Array) { //arr是一个数组 
+						valueArr.forEach(function(value, i) {
+							str = str.replace(new RegExp('\\{' + value +'\\}'), arr[value]);
+						});
+					} else {  //arr非数组对象
+
+						//可能有表达式也有可能只是单纯的值
+						for(var k in valueArr) {
+
+							//当前是表达式的情况下
+							if(valueArr[k].indexOf('return') > -1) {
+								var test = '';
+								for(var m in arr) {
+									if(valueArr[k].indexOf(m) > -1) { 
+										if(isNaN(arr[m])) {
+											arr[m] = '"' +arr[m]+ '"';
+										}
+										test = valueArr[k].replace(m, arr[m]);
+									}
+								}
+								if(!test) {
+									//当前表达式与arr无联系的情况下。
+									str = str.replace('{' + valueArr[k] +'}', new Function(valueArr[k])());
+								}
+								str = str.replace('{' + valueArr[k] +'}', new Function(test)() /*eval(test)*/);
+
+							} else {
+								//还有只是单纯取值的情况
+								currentValue = valueArr[k];
+						
+								//例如a.b.c的情况下
+								if(currentValue.length > 1) {
+									currentValue = currentValue.split('.');
+
+									factVal = arr;
+									for (j = 0; j < currentValue.length; j++) {
+
+										factVal = factVal[currentValue[j]];
+									};
+									val = factVal;
+
+								} else {
+									val = arr[currentValue];
+								}
+
+								str = str.replace(new RegExp('\\{' + valueArr[k] +'\\}'), val);
+							}
+						}
+					}
+
+				}
+
+				
+
+		   	ret = str;
+
+				console.log(ret);
+
+		   	return ret;
+			}
+
+
+			var str = 'my name is {0}{0}{0}{0}, I am a {1}, I am a {2}';
+			var arr = ['ebameng', 'girl', 'programmer'];
+			//format(str, arr);
+
+			var str2 = '{b.c.d.e}年是{a}年';
+			var arr2 = { a : '猴', b : { c : { d: { e: 2016 } }  } };
+			//format(str2, arr2);
+
+			var str3 = '我是{return age > 30 ? "奶奶" : "阿姨"} It is a { if( temp < 0) return "cold day"; else return "wonderful day";}';
+			var arr3 = {age : 20, temp: 23};
+			//format(str3, arr3);
+
+			var str3 = '我是{return lang.js == "s30" ? "老头" : "恶霸萌"} 我是牛逼的 {lang.js} {return document.title}';
+			var arr3 = {age : "s30", lang: { js: '程序员' }};
+			format(str3, arr3);
+
+		});
+	
+
+	</script>
+</body>
+</html>

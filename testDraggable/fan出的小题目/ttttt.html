@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="jquery.js"></script>
+	<script>
+	$(document).ready(function() {
+		$('body').on('input','.val', function(e) {
+			var val1 = $('input[name=val1]').val();
+			var val2 = $('input[name=val2]').val();
+			var val3 = +val1 + +val2;
+			$('input[name=val3]').val(val3);
+		})
+
+		$('input[type=file]').on('change', function(e) {
+			debugger
+			e.preventDefault();
+			e.stopPropagation();
+		})	
+	});
+	</script>
+</head>
+<body>
+	<input name="val3" type="text" readonly="readonly">=
+	<input name="val1" class="val" value="0" type="text">+
+	<input name="val2" class="val" value="0" type="text">
+
+	<input type="file">
+</body>
+</html>

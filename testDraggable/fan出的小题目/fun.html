@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+
+	function A() {
+		if(!(this instanceof A))
+			A.invoke = (A.invoke >> 0) + 1;
+		console.log(A.invoke >> 0);
+	}
+	console.log(A());
+	console.log(A());
+	console.log(A());
+	console.log(new A());
+	console.log(A());
+
+	//fn() // this 为window
+//obj.fn() // this 为obj, 因为fn调用的这一刻, 是通过obj点出来的, 函数的所有者为obj
+//fn2 = obj.fn; fn2(); // this 为window, 因为调用的这一刻, 不属于任何人.
+
+
+	var abc = function() {
+		alert('ebameng');
+	}
+
+	var qqs = ['11', '22'];
+	for (var i in qqs) {
+  	(function(i) {
+
+  		alert(i)
+  			
+  	})(i)
+  	
+  }
+
+	alert(eval('abc()'))
+	setTimeout(abc, -1000)
+	</script>
+</body>
+</html>

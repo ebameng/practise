@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script>
+	var aOri=['ab','b','c','d','e'];
+	var aCurr=['a','b','c'];
+	var aNTeam=[];
+
+	for (var i = 0; i < aOri.length; i++) {
+    (aCurr.indexOf( aOri[i] )== -1) && aNTeam.push( aOri[i] );
+	}
+
+	for (var j = 0; j < aCurr.length; j++) {
+    (aOri.indexOf( aCurr[j] )== -1) && aNTeam.push( aCurr[j] );
+	}
+	console.log(aNTeam)
+	</script>
+</head>
+<body>
+	
+</body>
+</html>

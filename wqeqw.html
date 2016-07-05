@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8">
+	<script type="text/javascript" src="testDraggable/jquery.js"></script>
+	<style>
+		div {
+			width: 80px;
+		}
+	</style>
+</head>
+<body>
+<input type="text">
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		var str = '';
+		$('input[type=checkbox]').click(function() {
+			if($(this).prop('checked') == true) {
+				str = str + ',' + $(this).next().text();
+				$(this).attr('checked', true);
+				$('input[type=text]').val(str);
+			} else {
+				var $target = $('input[checked=checked]').next();
+				if($target.length == 0) {
+					$('input[type=text]').val('')
+				} else {
+					for(var i in $target) {
+						str = str + ',' + $target[i].text()
+					}
+					$('input[type=text]').val(str);
+				}
+				$('input[checked=checked]')
+			}		 
+		});
+	});
+</script>
+</body>
+</html>

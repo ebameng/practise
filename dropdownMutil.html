@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8">
+	<style>
+		div {
+			width: 171px;
+    		border: 1px solid #A4A4A4;
+    		border-collapse: collapse;
+    		margin-top: 5px;
+    		font-size: 12px;
+		}
+		div p {
+			margin: 0;
+			padding: 0;
+		}
+		.tag, label {
+			vertical-align: middle;
+		}
+	</style>
+</head>
+<body>
+<input type="text" id="box" readonly="readonly">
+<div style="display: none;" id="wrapper">
+	<p>
+	<input type="checkbox" class="tag" data-id="101">
+	<label>北京</label>
+	</p>
+	<p>
+	<input type="checkbox" class="tag">
+	<label>北京</label>
+	</p>
+	<p>
+	<input type="checkbox" class="tag">
+	<label>北京</label>
+	</p>
+	<p>
+	<input type="checkbox" class="tag">
+	<label>北京</label>
+	</p>
+	<p>
+	<input type="checkbox" class="tag">
+	<label>北京</label>
+	</p>
+	<p>
+	<input type="checkbox" class="tag">
+	<label>北京</label>
+	</p>
+</div>
+<script type="text/javascript">
+var ele = document.getElementById('box');
+var checkbox = document.getElementsByClassName('tag');
+
+ele.onclick = function() {
+	document.getElementById('wrapper').style.display = 'block';
+}
+
+for(var i=0; i<checkbox.length;i++){ 
+	checkbox[i].onclick = function(){ 
+		var cls = 'checked';
+		if(hasClass(this, cls)) {  
+			removeClass(this, cls);			
+		} else {
+			addClass(this, cls);
+		}
+		var target = document.getElementsByClassName('checked');
+		var str = '';
+		if(target.length == 0) {
+			return ele.setAttribute('value', '');
+		}
+		for(var j=0; j<target.length; j++) {
+			var content = target[j].nextSibling.nextSibling.textContent;
+			str = str + ',' + content;	
+			var val = str.substr(1, str.length -1);
+		}
+		ele.setAttribute('value', val);	
+	} 
+} 
+
+function hasClass(obj, cls) {  
+    return obj.className.match(new RegExp('(\\s|^)' + cls + '(\\s|$)'));  
+}  
+  
+function addClass(obj, cls) {  
+    if (!this.hasClass(obj, cls)) obj.className += " " + cls;  
+}  
+  
+function removeClass(obj, cls) {  
+    if (hasClass(obj, cls)) {  
+        var reg = new RegExp('(\\s|^)' + cls + '(\\s|$)');  
+        obj.className = obj.className.replace(reg, ' ');  
+    }  
+}  
+  
+function toggleClass(obj,cls) {  
+    if(hasClass(obj,cls)) {  
+        removeClass(obj, cls);  
+    } else {  
+        addClass(obj, cls);  
+    }  
+}   
+</script>
+</body>
+</html>
